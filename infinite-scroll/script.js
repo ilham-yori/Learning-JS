@@ -1,7 +1,7 @@
 //API
-let count = 10;
-const apiKey = 'API_KEY';
-let apiURL = `https://api.unsplash.com/photos/random?client_id=${apiKey}&count=${count}`;
+let count = 5;
+const apiKey = 'ICVREL0_Mmhloon4eyzepKXO9_zPfQLCNK0CTN3sbOg';
+const apiUrl = `https://api.unsplash.com/photos/random?client_id=${apiKey}&count=${count}`;
 
 //DOM
 const imageContainer = document.getElementById('image-container');
@@ -27,37 +27,37 @@ function imageLoaded() {
 //Get Photo
 async function getPhotos() {
     try {
-        const response = await fetch(apiURL);
+        const response = await fetch(apiUrl);
         photosArray = await response.json();
-        displayPhoto();
+        displayPhotos();
     } catch (error) {
-        //Catch Error Here
+        // Catch Error Here
     }
 }
 
-function setAttribute(element, attribute) {
-    for(const key in attribute){
-        element.setAttribute(key, attribute[key]);
+function setAttributes(element, attributes) {
+    for (const key in attributes) {
+        element.setAttribute(key, attributes[key]);
     }
 }
 
 //Display Photos
-function displayPhoto() {
+function displayPhotos() {
     imagesLoaded = 0;
     totalImages = photosArray.length;
     //Run Loop for Array
-    photosArray.forEach((photo)=>{
+    photosArray.forEach((photo) => {
         //Binding to Unsplash
         const item = document.createElement('a');
-        setAttribute(item,{
+        setAttributes(item, {
             href: photo.links.html,
             target: '_blank',
         });
 
         //Image Element
         const img = document.createElement('img');
-        setAttribute(item,{
-            src: photo.url.regular,
+        setAttributes(img, {
+            src: photo.urls.regular,
             alt: photo.alt_description,
             title: photo.alt_description,
         });
@@ -66,15 +66,15 @@ function displayPhoto() {
         img.addEventListener('load', imageLoaded);
 
         //Linking Image With a href
-        item.append(img);
-        imageContainer.append(item);
+        item.appendChild(img);
+        imageContainer.appendChild(item);
     });
 }
 
 
 //Checker Scroll Element
 window.addEventListener('scroll', () => {
-    if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000 && ready){
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000 && ready) {
         ready = false;
         getPhotos();
     }
